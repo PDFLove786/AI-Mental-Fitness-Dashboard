@@ -511,28 +511,61 @@
     <!-- Adsterra Pop-under -->
     <script type='text/javascript' src='//pl27779994.revenuecpmgate.com/e2/89/09/e2890912ee39de37948741542f0fe493.js'></script>
 
-    <script>
-        // Navigation
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(section => {
-                section.style.display = 'none';
+ <script>
+    // Navigation
+    function showSection(sectionId) {
+        // Hide all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show selected section
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.style.display = 'block';
+        }
+        
+        window.scrollTo(0, 0);
+    }
+
+    // Initialize home as default
+    document.addEventListener('DOMContentLoaded', function() {
+        showSection('home');
+        updateMoodChart();
+        setupNavigation();
+        
+        // Animate progress ring
+        const circle = document.querySelector('.progress-ring-circle');
+        if (circle) {
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            const offset = circumference - (72 / 100) * circumference;
+            circle.style.strokeDasharray = ${circumference} ${circumference};
+            circle.style.strokeDashoffset = offset;
+        }
+    });
+
+    // Setup navigation links
+    function setupNavigation() {
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sectionId = this.getAttribute('href').substring(1);
+                showSection(sectionId);
             });
-            document.getElementById(sectionId).style.display = 'block';
-            window.scrollTo(0, 0);
-        }
+        });
+    }
 
-        // Initialize dashboard as default
-        showSection('dashboard');
+    // Mood Tracking
+    function trackMood(score) {
+        alert(Mood recorded: ${score}/5. Thank you for tracking!);
+        updateMoodChart();
+    }
 
-        // Mood Tracking
-        function trackMood(score) {
-            alert(Mood recorded: ${score}/5. Thank you for tracking!);
-            updateMoodChart();
-        }
-
-        // Mood Chart
-        function updateMoodChart() {
-            const ctx = document.getElementById('moodChart').getContext('2d');
+    // Mood Chart
+    function updateMoodChart() {
+        const ctx = document.getElementById('moodChart');
+        if (ctx) {
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -557,113 +590,117 @@
                 }
             });
         }
+    }
 
-        // AI Chat
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+    // AI Chat
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
         }
+    }
 
-        function sendMessage() {
-            const userInput = document.getElementById('userInput');
-            const message = userInput.value.trim();
+    function sendMessage() {
+        const userInput = document.getElementById('userInput');
+        const message = userInput.value.trim();
+        
+        if (message) {
+            // Add user message
+            addMessage(message, 'user');
+            userInput.value = '';
             
-            if (message) {
-                // Add user message
-                addMessage(message, 'user');
-                userInput.value = '';
-                
-                // Simulate AI response
-                setTimeout(() => {
-                    const responses = [
-                        "I understand how you're feeling. Let's work through this together.",
-                        "That sounds challenging. Have you tried any coping strategies?",
-                        "Thank you for sharing. Remember to be kind to yourself during difficult times.",
-                        "I'm here to support you. Would you like to try a quick breathing exercise?",
-                        "Many people experience similar feelings. You're not alone in this."
-                    ];
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    addMessage(randomResponse, 'ai');
-                }, 1000);
-            }
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "I understand how you're feeling. Let's work through this together.",
+                    "That sounds challenging. Have you tried any coping strategies?",
+                    "Thank you for sharing. Remember to be kind to yourself during difficult times.",
+                    "I'm here to support you. Would you like to try a quick breathing exercise?",
+                    "Many people experience similar feelings. You're not alone in this."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, 'ai');
+            }, 1000);
         }
+    }
 
-        function addMessage(text, sender) {
-            const chatMessages = document.getElementById('chatMessages');
+    function addMessage(text, sender) {
+        const chatMessages = document.getElementById('chatMessages');
+        if (chatMessages) {
             const messageDiv = document.createElement('div');
             messageDiv.className = message ${sender}-message;
             messageDiv.innerHTML = <strong>${sender === 'user' ? 'You' : 'MindHarmony AI'}:</strong> ${text};
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+    }
 
-        // Meditation Timer
-        let timerInterval;
-        let timeLeft = 300; // 5 minutes
-        let isRunning = false;
+    // Meditation Timer
+    let timerInterval;
+    let timeLeft = 300; // 5 minutes
+    let isRunning = false;
 
-        function selectSession(title, duration) {
-            document.getElementById('sessionTitle').textContent = title;
-            timeLeft = duration;
+    function selectSession(title, duration) {
+        document.getElementById('sessionTitle').textContent = title;
+        timeLeft = duration;
+        resetTimer();
+    }
+
+    function toggleTimer() {
+        const playBtn = document.getElementById('playBtn');
+        
+        if (!isRunning) {
+            isRunning = true;
+            playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+            timerInterval = setInterval(updateTimer, 1000);
+        } else {
+            isRunning = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+            clearInterval(timerInterval);
+        }
+    }
+
+    function updateTimer() {
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('Meditation session completed! Great job!');
+            resetTimer();
+            return;
+        }
+        
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = 
+            ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        isRunning = false;
+        const playBtn = document.getElementById('playBtn');
+        playBtn.innerHTML = '<i class="fas fa-play"></i> Start';
+        
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = 
+            ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+    }
+
+    function skipSession() {
+        if (confirm('Skip this meditation session?')) {
             resetTimer();
         }
+    }
 
-        function toggleTimer() {
-            const playBtn = document.getElementById('playBtn');
-            
-            if (!isRunning) {
-                isRunning = true;
-                playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
-                timerInterval = setInterval(updateTimer, 1000);
-            } else {
-                isRunning = false;
-                playBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
-                clearInterval(timerInterval);
-            }
-        }
+    function startMeditation() {
+        showSection('meditation');
+    }
 
-        function updateTimer() {
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                alert('Meditation session completed! Great job!');
-                resetTimer();
-                return;
-            }
-            
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
-                ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            const playBtn = document.getElementById('playBtn');
-            playBtn.innerHTML = '<i class="fas fa-play"></i> Start';
-            
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            document.getElementById('timer').textContent = 
-                ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
-        }
-
-        function skipSession() {
-            if (confirm('Skip this meditation session?')) {
-                resetTimer();
-            }
-        }
-
-        function startMeditation() {
-            showSection('meditation');
-        }
-
-        // Games
-        function startGame(gameType) {
-            alert(Starting ${gameType} game! This feature would include interactive gameplay.);
-        }
+    // Games
+    function startGame(gameType) {
+        alert(Starting ${gameType} game! This feature would include interactive gameplay.);
+    }
+</script>
 
         // Initialize charts and features
         document.addEventListener('DOMContentLoaded', function() {
@@ -679,4 +716,5 @@
         });
     </script>
 </body>
+
 </html>
