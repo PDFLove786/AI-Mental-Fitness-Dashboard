@@ -215,6 +215,38 @@
             color: white !important;
             background: rgba(99, 102, 241, 0.2);
         }
+
+        .section {
+            display: none;
+            padding: 100px 0;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.error {
+            background: var(--danger);
+        }
     </style>
 </head>
 <body>
@@ -270,10 +302,12 @@
                                         <circle class="progress-ring-circle" stroke="#334155" stroke-width="8" fill="transparent" r="60" cx="70" cy="70"/>
                                         <circle class="progress-ring-circle" stroke="url(#gradient)" stroke-width="8" fill="transparent" r="60" cx="70" cy="70" stroke-dasharray="377" stroke-dashoffset="377"/>
                                     </svg>
-                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#6366f1" />
-                                        <stop offset="100%" stop-color="#8b5cf6" />
-                                    </linearGradient>
+                                    <defs>
+                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#6366f1" />
+                                            <stop offset="100%" stop-color="#8b5cf6" />
+                                        </linearGradient>
+                                    </defs>
                                 </div>
                                 <div class="position-absolute top-50 start-50 translate-middle text-center">
                                     <h2 class="mb-0 fw-bold" id="mentalScore">84</h2>
@@ -296,7 +330,7 @@
                 <div class="col-md-8">
                     <h5 class="text-white">Upgrade to MindHarmony Pro</h5>
                     <p class="text-muted mb-3">Get personalized AI coaching, advanced analytics, and premium features</p>
-                    <button class="btn btn-primary btn-sm">Start Free Trial</button>
+                    <button class="btn btn-primary btn-sm" onclick="showNotification('Pro features coming soon!')">Start Free Trial</button>
                 </div>
                 <div class="col-md-4 text-center">
                     <i class="fas fa-crown text-warning fs-1"></i>
@@ -306,7 +340,7 @@
     </div>
 
     <!-- Dashboard Section -->
-    <section id="dashboard" class="section py-5" style="display: none;">
+    <section id="dashboard" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Mental Fitness Dashboard</h2>
@@ -408,7 +442,7 @@
     </section>
 
     <!-- AI Coach Section -->
-    <section id="ai-coach" class="section py-5" style="display: none;">
+    <section id="ai-coach" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">AI Mental Health Coach</h2>
@@ -441,7 +475,7 @@
     </section>
 
     <!-- Meditation Section -->
-    <section id="meditation" class="section py-5" style="display: none;">
+    <section id="meditation" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Meditation & Mindfulness</h2>
@@ -516,7 +550,7 @@
     </section>
 
     <!-- Games Section -->
-    <section id="games" class="section py-5" style="display: none;">
+    <section id="games" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Mental Fitness Games</h2>
@@ -559,7 +593,7 @@
     </section>
 
     <!-- Resources Section -->
-    <section id="resources" class="section py-5" style="display: none;">
+    <section id="resources" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
                 <h2 class="section-title">Resources & Tools</h2>
@@ -573,22 +607,22 @@
                         <p class="text-muted mb-4">Downloadable resources for mental health tracking and exercises</p>
                         <div class="row g-2">
                             <div class="col-6">
-                                <button class="btn btn-outline-light w-100 mb-2">
+                                <button class="btn btn-outline-light w-100 mb-2" onclick="downloadResource('mood-tracker')">
                                     <i class="fas fa-download me-2"></i>Mood Tracker
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-outline-light w-100 mb-2">
+                                <button class="btn btn-outline-light w-100 mb-2" onclick="downloadResource('anxiety-worksheets')">
                                     <i class="fas fa-download me-2"></i>Anxiety Worksheets
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-outline-light w-100 mb-2">
+                                <button class="btn btn-outline-light w-100 mb-2" onclick="downloadResource('sleep-diary')">
                                     <i class="fas fa-download me-2"></i>Sleep Diary
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-outline-light w-100 mb-2">
+                                <button class="btn btn-outline-light w-100 mb-2" onclick="downloadResource('goal-planner')">
                                     <i class="fas fa-download me-2"></i>Goal Planner
                                 </button>
                             </div>
@@ -627,15 +661,15 @@
                     <h6 class="text-light mb-3">Resources</h6>
                     <ul class="list-unstyled">
                         <li><a href="#" class="text-muted text-decoration-none" onclick="showSection('resources')">PDF Tools</a></li>
-                        <li><a href="#" class="text-muted text-decoration-none">Blog</a></li>
-                        <li><a href="#" class="text-muted text-decoration-none">Support</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none" onclick="showNotification('Blog coming soon!')">Blog</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none" onclick="showNotification('Support page coming soon!')">Support</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">
                     <h6 class="text-light mb-3">Newsletter</h6>
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control bg-dark border-secondary text-light" placeholder="Your email">
-                        <button class="btn btn-primary">Subscribe</button>
+                        <input type="email" class="form-control bg-dark border-secondary text-light" placeholder="Your email" id="newsletterEmail">
+                        <button class="btn btn-primary" onclick="subscribeNewsletter()">Subscribe</button>
                     </div>
                     <small class="text-muted">Get mental wellness tips and updates</small>
                 </div>
@@ -647,6 +681,11 @@
         </div>
     </footer>
 
+    <!-- Notification System -->
+    <div class="notification" id="notification">
+        <span id="notificationText"></span>
+    </div>
+
     <!-- Bootstrap & Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -655,14 +694,13 @@
         function showSection(sectionId) {
             // Hide all sections
             document.querySelectorAll('.section').forEach(section => {
-                section.style.display = 'none';
+                section.classList.remove('active');
             });
             
             // Show selected section
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
-                targetSection.style.display = 'block';
-                targetSection.classList.add('fade-in');
+                targetSection.classList.add('active');
             }
             
             // Update active nav link
@@ -684,101 +722,122 @@
         // Dashboard Features
         function initializeDashboard() {
             // Mood Chart
-            const moodCtx = document.getElementById('moodChart').getContext('2d');
-            new Chart(moodCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Mood Score',
-                        data: [7, 8, 6, 9, 8, 7, 8],
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+            const moodCtx = document.getElementById('moodChart');
+            if (moodCtx) {
+                // Destroy existing chart if it exists
+                if (window.moodChartInstance) {
+                    window.moodChartInstance.destroy();
+                }
+                
+                window.moodChartInstance = new Chart(moodCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        datasets: [{
+                            label: 'Mood Score',
+                            data: [7, 8, 6, 9, 8, 7, 8],
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            borderWidth: 3
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 10,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#94a3b8'
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
                             }
                         },
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 10,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#94a3b8'
+                                }
                             },
-                            ticks: {
-                                color: '#94a3b8'
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#94a3b8'
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         // Resources Features
         function initializeResources() {
-            const progressCtx = document.getElementById('progressChart').getContext('2d');
-            new Chart(progressCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Mental Fitness Score',
-                        data: [65, 72, 68, 75, 80, 84],
-                        backgroundColor: 'rgba(99, 102, 241, 0.8)',
-                        borderRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
+            const progressCtx = document.getElementById('progressChart');
+            if (progressCtx) {
+                // Destroy existing chart if it exists
+                if (window.progressChartInstance) {
+                    window.progressChartInstance.destroy();
+                }
+                
+                window.progressChartInstance = new Chart(progressCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Mental Fitness Score',
+                            data: [65, 72, 68, 75, 80, 84],
+                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                            borderRadius: 8
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#94a3b8'
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: false
                             }
                         },
-                        x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#94a3b8'
+                                }
                             },
-                            ticks: {
-                                color: '#94a3b8'
+                            x: {
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                },
+                                ticks: {
+                                    color: '#94a3b8'
+                                }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         // Mood Tracking
         function trackMood(score) {
             const moods = ['Struggling', 'Down', 'Neutral', 'Good', 'Excellent'];
             showNotification(Mood recorded: ${moods[score-1]} (${score}/5));
+            
+            // Update mood chart data
+            if (window.moodChartInstance) {
+                const newData = window.moodChartInstance.data.datasets[0].data;
+                newData[newData.length - 1] = score * 2; // Convert to 10-point scale
+                window.moodChartInstance.update();
+            }
         }
 
         // AI Chat System
@@ -797,18 +856,29 @@
                 addChatMessage(message, 'user');
                 userInput.value = '';
                 
+                // Show typing indicator
+                const typingIndicator = addChatMessage('MindHarmony AI is typing...', 'ai');
+                typingIndicator.style.fontStyle = 'italic';
+                typingIndicator.style.opacity = '0.7';
+                
                 // Simulate AI thinking
                 setTimeout(() => {
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
                     const responses = [
                         "I understand how you're feeling. Let's explore some coping strategies together.",
                         "That sounds challenging. Remember that it's okay to feel this way. Would you like to try a grounding exercise?",
                         "Thank you for sharing. Many people experience similar feelings. You're taking great steps by reaching out.",
                         "I'm here to support you. Let's break this down into manageable steps.",
-                        "Your awareness of these feelings is the first step toward managing them. Let's work on this together."
+                        "Your awareness of these feelings is the first step toward managing them. Let's work on this together.",
+                        "It takes courage to talk about these things. I'm proud of you for reaching out.",
+                        "Let's try a quick breathing exercise together. Breathe in for 4 seconds, hold for 4, exhale for 6.",
+                        "Have you noticed any patterns in when these feelings occur? This can help us understand them better."
                     ];
                     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                     addChatMessage(randomResponse, 'ai');
-                }, 1000 + Math.random() * 2000);
+                }, 1500 + Math.random() * 2000);
             }
         }
 
@@ -819,6 +889,7 @@
             messageDiv.innerHTML = <strong>${sender === 'user' ? 'You' : 'MindHarmony AI'}:</strong> ${text};
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
         }
 
         // Meditation Timer System
@@ -833,6 +904,7 @@
             totalTime = duration;
             resetTimer();
             updateProgressBar();
+            showNotification(Selected: ${title});
         }
 
         function toggleTimer() {
@@ -842,10 +914,12 @@
                 isRunning = true;
                 playBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
                 timerInterval = setInterval(updateTimer, 1000);
+                showNotification('Meditation session started');
             } else {
                 isRunning = false;
                 playBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
                 clearInterval(timerInterval);
+                showNotification('Meditation paused');
             }
         }
 
@@ -854,6 +928,10 @@
                 clearInterval(timerInterval);
                 showNotification('Meditation session completed! Great job! 🎉');
                 resetTimer();
+                // Play completion sound (simulated)
+                if (typeof window.beep === 'function') {
+                    window.beep();
+                }
                 return;
             }
             
@@ -886,6 +964,7 @@
         function skipSession() {
             if (confirm('Skip this meditation session?')) {
                 resetTimer();
+                showNotification('Session skipped');
             }
         }
 
@@ -896,33 +975,58 @@
                 'focus': 'Focus Flow', 
                 'breathing': 'Breath Master'
             };
-            showNotification(Starting ${games[gameType]}! 🎮);
+            showNotification(Starting ${games[gameType]}! 🎮\nThis feature will be available in the next update.);
+        }
+
+        // Resource Download
+        function downloadResource(type) {
+            const resources = {
+                'mood-tracker': 'Mood Tracker PDF',
+                'anxiety-worksheets': 'Anxiety Worksheets',
+                'sleep-diary': 'Sleep Diary',
+                'goal-planner': 'Goal Planner'
+            };
+            showNotification(Downloading ${resources[type]}...\n(Simulated download));
+        }
+
+        // Newsletter Subscription
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletterEmail').value;
+            if (email && email.includes('@')) {
+                showNotification('Thank you for subscribing to our newsletter!');
+                document.getElementById('newsletterEmail').value = '';
+            } else {
+                showNotification('Please enter a valid email address', 'error');
+            }
         }
 
         // Notification System
-        function showNotification(message) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = 'position-fixed top-0 end-0 m-3 p-3 rounded glass-card';
-            notification.style.zIndex = '9999';
-            notification.style.minWidth = '300px';
-            notification.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-check-circle text-success me-2"></i>
-                    <span>${message}</span>
-                </div>
-            `;
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
             
-            document.body.appendChild(notification);
+            notificationText.textContent = message;
             
-            // Remove after 3 seconds
+            // Set color based on type
+            if (type === 'error') {
+                notification.style.background = '#ef4444';
+                notification.classList.add('error');
+            } else {
+                notification.style.background = '#10b981';
+                notification.classList.remove('error');
+            }
+            
+            notification.classList.add('show');
+            
+            // Hide after 4 seconds
             setTimeout(() => {
-                notification.remove();
-            }, 3000);
+                notification.classList.remove('show');
+            }, 4000);
         }
 
         // Initialize on load
         document.addEventListener('DOMContentLoaded', function() {
+            // Show home section by default
             showSection('home');
             
             // Animate progress ring
@@ -935,13 +1039,23 @@
                 circle.style.strokeDasharray = ${circumference} ${circumference};
                 circle.style.strokeDashoffset = offset;
             }
+
+            // Initialize dashboard charts
+            initializeDashboard();
+            
+            // Add beep function for meditation completion
+            window.beep = function() {
+                // Simulate beep sound (in a real app, this would play audio)
+                console.log('Beep! Meditation completed.');
+            };
+
+            console.log('MindHarmony AI initialized successfully!');
         });
 
-        // Ad system (placeholder)
-        function loadAds() {
-            // Ad loading logic would go here
-            console.log('Ads loading system initialized');
-        }
+        // Handle page refresh - show home section
+        window.addEventListener('load', function() {
+            showSection('home');
+        });
     </script>
 </body>
 </html>
