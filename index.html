@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindHarmony AI - Advanced Mental Fitness Platform</title>
+    <title>MindCare AI - Mental Health & Wellness Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #7c3aed;
             --accent: #06b6d4;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
             --light: #f8fafc;
             --dark: #1e293b;
-            --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-dark: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
         
         * {
@@ -37,15 +36,7 @@
             line-height: 1.6;
         }
         
-        .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-        
+        /* Navigation */
         .navbar {
             background: rgba(15, 23, 42, 0.95) !important;
             backdrop-filter: blur(10px);
@@ -53,23 +44,38 @@
             padding: 1rem 0;
         }
         
-        .hero-section {
-            background: var(--gradient-dark);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+        .nav-link {
+            color: #cbd5e1 !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            border-radius: 10px;
+            transition: all 0.3s ease;
         }
         
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(255,255,255,0.05)" d="M0 0h1000v1000H0z"/></svg>');
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background: rgba(79, 70, 229, 0.2);
+        }
+        
+        /* Sections */
+        .section {
+            display: none;
+            padding: 100px 0;
+            min-height: 100vh;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Cards */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
         .feature-icon {
@@ -83,14 +89,22 @@
             margin-bottom: 20px;
         }
         
-        .progress-ring {
-            transform: rotate(-90deg);
+        /* Buttons */
+        .btn-primary {
+            background: var(--gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
         
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.5s ease;
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
         }
         
+        /* Chat Styles */
         .chat-message {
             max-width: 80%;
             margin: 10px 0;
@@ -112,6 +126,7 @@
             border-bottom-left-radius: 5px;
         }
         
+        /* Mood Tracker */
         .mood-emoji {
             font-size: 2.5rem;
             cursor: pointer;
@@ -121,10 +136,11 @@
         }
         
         .mood-emoji:hover {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(79, 70, 229, 0.2);
             transform: scale(1.1);
         }
         
+        /* Meditation */
         .meditation-controls {
             background: rgba(30, 41, 59, 0.8);
             border-radius: 20px;
@@ -132,6 +148,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        /* Games */
         .game-card {
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -146,41 +163,10 @@
         .game-card:hover {
             transform: translateY(-5px);
             border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
         }
         
-        .ad-container {
-            background: rgba(30, 41, 59, 0.8);
-            border: 2px dashed rgba(99, 102, 241, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .btn-primary {
-            background: var(--gradient);
-            border: none;
-            border-radius: 12px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-        }
-        
-        .section-title {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-        
+        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -190,11 +176,27 @@
             animation: fadeIn 0.6s ease;
         }
         
-        .stats-card {
-            text-align: center;
-            padding: 25px;
+        /* Hero Section */
+        .hero-section {
+            background: var(--gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
         
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path fill="rgba(255,255,255,0.05)" d="M0 0h1000v1000H0z"/></svg>');
+        }
+        
+        /* Stats */
         .stats-number {
             font-size: 2.5rem;
             font-weight: 700;
@@ -203,28 +205,6 @@
             -webkit-text-fill-color: transparent;
         }
         
-        .nav-link {
-            color: #cbd5e1 !important;
-            font-weight: 500;
-            padding: 0.5rem 1rem !important;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            color: white !important;
-            background: rgba(99, 102, 241, 0.2);
-        }
-
-        .section {
-            display: none;
-            padding: 100px 0;
-        }
-
-        .section.active {
-            display: block;
-        }
-
         /* Notification */
         .notification {
             position: fixed;
@@ -239,13 +219,22 @@
             transition: transform 0.3s ease;
             z-index: 1001;
         }
-
+        
         .notification.show {
             transform: translateX(0);
         }
-
+        
         .notification.error {
             background: var(--danger);
+        }
+        
+        /* Progress */
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
         }
     </style>
 </head>
@@ -253,9 +242,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#home" onclick="showSection('home')">
+            <a class="navbar-brand fw-bold" href="#home">
                 <i class="fas fa-brain me-2"></i>
-                MindHarmony AI
+                MindCare AI
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -266,7 +255,6 @@
                     <li class="nav-item"><a class="nav-link" href="#dashboard" onclick="showSection('dashboard')">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="#ai-coach" onclick="showSection('ai-coach')">AI Coach</a></li>
                     <li class="nav-item"><a class="nav-link" href="#meditation" onclick="showSection('meditation')">Meditation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#games" onclick="showSection('games')">Games</a></li>
                     <li class="nav-item"><a class="nav-link" href="#resources" onclick="showSection('resources')">Resources</a></li>
                 </ul>
             </div>
@@ -278,11 +266,11 @@
         <div class="container">
             <div class="row align-items-center min-vh-100">
                 <div class="col-lg-6 fade-in">
-                    <h1 class="section-title">Your AI Mental Fitness Companion</h1>
-                    <p class="lead mb-4 fs-5 text-light">Advanced mental wellness platform powered by artificial intelligence. Track, analyze, and optimize your mental health with cutting-edge technology.</p>
+                    <h1 class="display-4 fw-bold mb-4 text-white">Your AI Mental Health Companion</h1>
+                    <p class="lead mb-4 fs-5 text-light">Advanced mental wellness platform powered by artificial intelligence. Get personalized support, track your progress, and improve your mental fitness.</p>
                     <div class="d-flex gap-3 flex-wrap">
                         <button class="btn btn-primary btn-lg px-4 py-3" onclick="showSection('dashboard')">
-                            <i class="fas fa-rocket me-2"></i>Start Your Journey
+                            <i class="fas fa-chart-line me-2"></i>View Dashboard
                         </button>
                         <button class="btn btn-outline-light btn-lg px-4 py-3" onclick="showSection('ai-coach')">
                             <i class="fas fa-robot me-2"></i>Talk to AI Coach
@@ -295,26 +283,26 @@
                             <div class="feature-icon mx-auto">
                                 <i class="fas fa-brain text-white fs-3"></i>
                             </div>
-                            <h3 class="mb-4">Mental Fitness Score</h3>
+                            <h3 class="mb-4 text-white">Mental Wellness Score</h3>
                             <div class="position-relative d-inline-block">
                                 <div class="progress-ring">
                                     <svg width="140" height="140" viewBox="0 0 140 140">
                                         <circle class="progress-ring-circle" stroke="#334155" stroke-width="8" fill="transparent" r="60" cx="70" cy="70"/>
-                                        <circle class="progress-ring-circle" stroke="url(#gradient)" stroke-width="8" fill="transparent" r="60" cx="70" cy="70" stroke-dasharray="377" stroke-dashoffset="377"/>
+                                        <circle class="progress-ring-circle" stroke="url(#gradient)" stroke-width="8" fill="transparent" r="60" cx="70" cy="70" stroke-dasharray="377" stroke-dashoffset="113"/>
                                     </svg>
                                     <defs>
                                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stop-color="#6366f1" />
-                                            <stop offset="100%" stop-color="#8b5cf6" />
+                                            <stop offset="0%" stop-color="#4f46e5" />
+                                            <stop offset="100%" stop-color="#7c3aed" />
                                         </linearGradient>
                                     </defs>
                                 </div>
                                 <div class="position-absolute top-50 start-50 translate-middle text-center">
-                                    <h2 class="mb-0 fw-bold" id="mentalScore">84</h2>
+                                    <h2 class="mb-0 fw-bold text-white">78</h2>
                                     <small class="text-muted">/100</small>
                                 </div>
                             </div>
-                            <p class="text-muted mt-3">Advanced analysis of your mental wellness patterns</p>
+                            <p class="text-muted mt-3">Based on your recent activity and mood patterns</p>
                         </div>
                     </div>
                 </div>
@@ -322,58 +310,41 @@
         </div>
     </section>
 
-    <!-- Ad Banner -->
-    <div class="container mt-5">
-        <div class="ad-container">
-            <div class="ad-label text-muted mb-3">Advertisement</div>
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h5 class="text-white">Upgrade to MindHarmony Pro</h5>
-                    <p class="text-muted mb-3">Get personalized AI coaching, advanced analytics, and premium features</p>
-                    <button class="btn btn-primary btn-sm" onclick="showNotification('Pro features coming soon!')">Start Free Trial</button>
-                </div>
-                <div class="col-md-4 text-center">
-                    <i class="fas fa-crown text-warning fs-1"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Dashboard Section -->
     <section id="dashboard" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Mental Fitness Dashboard</h2>
-                <p class="text-muted">Comprehensive overview of your mental wellness journey</p>
+                <h2 class="display-4 fw-bold text-white mb-3">Mental Health Dashboard</h2>
+                <p class="lead text-muted">Comprehensive overview of your wellness journey</p>
             </div>
             
             <!-- Quick Stats -->
             <div class="row g-4 mb-5">
                 <div class="col-md-3">
-                    <div class="glass-card stats-card">
+                    <div class="glass-card text-center">
                         <i class="fas fa-fire text-warning mb-3 fs-1"></i>
-                        <h3 class="stats-number">12</h3>
+                        <h3 class="stats-number">14</h3>
                         <p class="text-muted mb-0">Day Streak</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="glass-card stats-card">
+                    <div class="glass-card text-center">
                         <i class="fas fa-smile text-success mb-3 fs-1"></i>
-                        <h3 class="stats-number">8.6</h3>
+                        <h3 class="stats-number">7.8</h3>
                         <p class="text-muted mb-0">Mood Score</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="glass-card stats-card">
+                    <div class="glass-card text-center">
                         <i class="fas fa-meditation text-primary mb-3 fs-1"></i>
-                        <h3 class="stats-number">67</h3>
+                        <h3 class="stats-number">45</h3>
                         <p class="text-muted mb-0">Meditation Min</p>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="glass-card stats-card">
+                    <div class="glass-card text-center">
                         <i class="fas fa-trophy text-info mb-3 fs-1"></i>
-                        <h3 class="stats-number">18</h3>
+                        <h3 class="stats-number">22</h3>
                         <p class="text-muted mb-0">Achievements</p>
                     </div>
                 </div>
@@ -383,29 +354,29 @@
             <div class="row g-4">
                 <div class="col-lg-8">
                     <div class="glass-card">
-                        <h4 class="mb-4">Mood Analytics</h4>
+                        <h4 class="text-white mb-4">Mood Analytics</h4>
                         <div class="mb-4">
                             <h6 class="text-muted mb-3">How are you feeling today?</h6>
                             <div class="d-flex justify-content-between">
                                 <div class="text-center" onclick="trackMood(1)">
                                     <div class="mood-emoji">😢</div>
-                                    <small>Struggling</small>
+                                    <small class="text-muted">Struggling</small>
                                 </div>
                                 <div class="text-center" onclick="trackMood(2)">
                                     <div class="mood-emoji">😞</div>
-                                    <small>Down</small>
+                                    <small class="text-muted">Down</small>
                                 </div>
                                 <div class="text-center" onclick="trackMood(3)">
                                     <div class="mood-emoji">😐</div>
-                                    <small>Neutral</small>
+                                    <small class="text-muted">Neutral</small>
                                 </div>
                                 <div class="text-center" onclick="trackMood(4)">
                                     <div class="mood-emoji">😊</div>
-                                    <small>Good</small>
+                                    <small class="text-muted">Good</small>
                                 </div>
                                 <div class="text-center" onclick="trackMood(5)">
                                     <div class="mood-emoji">😄</div>
-                                    <small>Excellent</small>
+                                    <small class="text-muted">Excellent</small>
                                 </div>
                             </div>
                         </div>
@@ -415,20 +386,27 @@
                 
                 <div class="col-lg-4">
                     <div class="glass-card h-100">
-                        <h5 class="mb-3">Daily Recommendations</h5>
+                        <h5 class="text-white mb-3">Daily Wellness Plan</h5>
                         <div class="mb-3">
-                            <div class="d-flex align-items-center mb-3 p-3 rounded" style="background: rgba(99, 102, 241, 0.1);">
+                            <div class="d-flex align-items-center mb-3 p-3 rounded" style="background: rgba(79, 70, 229, 0.1);">
                                 <i class="fas fa-wind text-primary me-3"></i>
                                 <div>
-                                    <h6 class="mb-1">Breathing Exercise</h6>
+                                    <h6 class="text-white mb-1">Breathing Exercise</h6>
                                     <small class="text-muted">5 min • Reduce stress</small>
                                 </div>
                             </div>
                             <div class="d-flex align-items-center mb-3 p-3 rounded" style="background: rgba(16, 185, 129, 0.1);">
                                 <i class="fas fa-brain text-success me-3"></i>
                                 <div>
-                                    <h6 class="mb-1">Focus Training</h6>
-                                    <small class="text-muted">10 min • Improve concentration</small>
+                                    <h6 class="text-white mb-1">Mindfulness Practice</h6>
+                                    <small class="text-muted">10 min • Improve focus</small>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3 p-3 rounded" style="background: rgba(245, 158, 11, 0.1);">
+                                <i class="fas fa-heart text-warning me-3"></i>
+                                <div>
+                                    <h6 class="text-white mb-1">Gratitude Journal</h6>
+                                    <small class="text-muted">3 min • Positive mindset</small>
                                 </div>
                             </div>
                         </div>
@@ -445,8 +423,8 @@
     <section id="ai-coach" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">AI Mental Health Coach</h2>
-                <p class="text-muted">24/7 personalized support and guidance</p>
+                <h2 class="display-4 fw-bold text-white mb-3">AI Mental Health Coach</h2>
+                <p class="lead text-muted">24/7 personalized support and guidance</p>
             </div>
             
             <div class="row justify-content-center">
@@ -454,18 +432,18 @@
                     <div class="glass-card">
                         <div class="chat-messages p-4" id="chatMessages" style="height: 400px; overflow-y: auto; background: rgba(15, 23, 42, 0.5); border-radius: 15px;">
                             <div class="chat-message ai-message">
-                                <strong>MindHarmony AI:</strong> Hello! I'm your advanced AI mental health coach. I'm here to provide personalized support, coping strategies, and evidence-based guidance. How can I help you today?
+                                <strong>MindCare AI:</strong> Hello! I'm your AI mental health coach. I'm here to provide confidential, non-judgmental support. How can I help you today? You can share your feelings, ask for coping strategies, or just talk.
                             </div>
                         </div>
                         <div class="p-3 border-top border-secondary">
                             <div class="input-group">
-                                <input type="text" class="form-control bg-dark border-secondary text-light" id="userInput" placeholder="Share your thoughts, feelings, or concerns..." onkeypress="handleChatKeyPress(event)">
+                                <input type="text" class="form-control bg-dark border-secondary text-light" id="userInput" placeholder="Share what's on your mind..." onkeypress="handleChatKeyPress(event)">
                                 <button class="btn btn-primary" onclick="sendMessage()">
                                     <i class="fas fa-paper-plane"></i>
                                 </button>
                             </div>
                             <div class="mt-2">
-                                <small class="text-muted">Try: "I'm feeling anxious about work" or "Help me sleep better"</small>
+                                <small class="text-muted">Try: "I'm feeling anxious" or "Help me sleep better" or "I need coping strategies"</small>
                             </div>
                         </div>
                     </div>
@@ -478,21 +456,21 @@
     <section id="meditation" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Meditation & Mindfulness</h2>
-                <p class="text-muted">Guided sessions for mental clarity and peace</p>
+                <h2 class="display-4 fw-bold text-white mb-3">Meditation & Mindfulness</h2>
+                <p class="lead text-muted">Guided sessions for mental clarity and peace</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-lg-6">
                     <div class="meditation-controls">
-                        <h4 class="mb-4" id="sessionTitle">Stress Relief Breathing</h4>
+                        <h4 class="text-white mb-4" id="sessionTitle">Stress Relief Breathing</h4>
                         <div class="text-center mb-4">
                             <i class="fas fa-spa mb-3 text-primary" style="font-size: 4rem;"></i>
                         </div>
                         <p class="text-muted mb-4">Deep breathing exercise to calm your nervous system and reduce anxiety</p>
                         
                         <div class="text-center mb-4">
-                            <h1 id="timer" class="display-3 fw-bold">05:00</h1>
+                            <h1 id="timer" class="display-3 fw-bold text-white">05:00</h1>
                             <div class="progress mt-3" style="height: 6px;">
                                 <div class="progress-bar" id="progressBar" style="width: 0%; background: var(--gradient);"></div>
                             </div>
@@ -513,79 +491,36 @@
                 </div>
                 
                 <div class="col-lg-6">
-                    <h5 class="mb-4">Available Sessions</h5>
+                    <h5 class="text-white mb-4">Available Sessions</h5>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="game-card" onclick="selectSession('Stress Relief Breathing', 300)">
                                 <i class="fas fa-wind text-primary mb-3 fs-1"></i>
-                                <h6>Stress Relief</h6>
-                                <small class="text-muted">5 min</small>
+                                <h6 class="text-white">Stress Relief</h6>
+                                <small class="text-muted">5 min • Calm anxiety</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="game-card" onclick="selectSession('Sleep Meditation', 600)">
                                 <i class="fas fa-moon text-info mb-3 fs-1"></i>
-                                <h6>Sleep Aid</h6>
-                                <small class="text-muted">10 min</small>
+                                <h6 class="text-white">Sleep Aid</h6>
+                                <small class="text-muted">10 min • Better sleep</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="game-card" onclick="selectSession('Anxiety Relief', 420)">
                                 <i class="fas fa-heart text-success mb-3 fs-1"></i>
-                                <h6>Anxiety Relief</h6>
-                                <small class="text-muted">7 min</small>
+                                <h6 class="text-white">Anxiety Relief</h6>
+                                <small class="text-muted">7 min • Reduce worry</small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="game-card" onclick="selectSession('Focus Enhancement', 480)">
                                 <i class="fas fa-bullseye text-warning mb-3 fs-1"></i>
-                                <h6>Focus Boost</h6>
-                                <small class="text-muted">8 min</small>
+                                <h6 class="text-white">Focus Boost</h6>
+                                <small class="text-muted">8 min • Improve concentration</small>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Games Section -->
-    <section id="games" class="section py-5">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="section-title">Mental Fitness Games</h2>
-                <p class="text-muted">Train your brain with engaging exercises</p>
-            </div>
-            
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="game-card" onclick="startGame('memory')">
-                        <div class="feature-icon mx-auto mb-3">
-                            <i class="fas fa-brain text-white"></i>
-                        </div>
-                        <h5>Memory Matrix</h5>
-                        <p class="text-muted">Challenge your short-term memory with pattern recognition</p>
-                        <span class="badge bg-primary">Brain Training</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="game-card" onclick="startGame('focus')">
-                        <div class="feature-icon mx-auto mb-3" style="background: var(--success);">
-                            <i class="fas fa-bullseye text-white"></i>
-                        </div>
-                        <h5>Focus Flow</h5>
-                        <p class="text-muted">Improve concentration with attention exercises</p>
-                        <span class="badge bg-success">Attention</span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="game-card" onclick="startGame('breathing')">
-                        <div class="feature-icon mx-auto mb-3" style="background: var(--accent);">
-                            <i class="fas fa-wind text-white"></i>
-                        </div>
-                        <h5>Breath Master</h5>
-                        <p class="text-muted">Master breathing techniques for stress relief</p>
-                        <span class="badge bg-info">Relaxation</span>
                     </div>
                 </div>
             </div>
@@ -596,15 +531,15 @@
     <section id="resources" class="section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="section-title">Resources & Tools</h2>
-                <p class="text-muted">Additional tools for your mental wellness journey</p>
+                <h2 class="display-4 fw-bold text-white mb-3">Wellness Resources</h2>
+                <p class="lead text-muted">Tools and resources for your mental health journey</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="glass-card h-100">
-                        <h4 class="mb-3">PDF Tools & Worksheets</h4>
-                        <p class="text-muted mb-4">Downloadable resources for mental health tracking and exercises</p>
+                        <h4 class="text-white mb-3">Mental Health Tools</h4>
+                        <p class="text-muted mb-4">Downloadable resources for tracking and improvement</p>
                         <div class="row g-2">
                             <div class="col-6">
                                 <button class="btn btn-outline-light w-100 mb-2" onclick="downloadResource('mood-tracker')">
@@ -632,9 +567,38 @@
                 
                 <div class="col-md-6">
                     <div class="glass-card h-100">
-                        <h4 class="mb-3">Progress Insights</h4>
-                        <p class="text-muted mb-4">Detailed analytics of your mental fitness journey</p>
+                        <h4 class="text-white mb-3">Progress Insights</h4>
+                        <p class="text-muted mb-4">Your mental wellness journey overview</p>
                         <canvas id="progressChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emergency Resources -->
+            <div class="glass-card mt-4">
+                <h4 class="text-white mb-3">Emergency Resources</h4>
+                <p class="text-muted mb-3">If you're in crisis or need immediate help:</p>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(239, 68, 68, 0.1);">
+                            <i class="fas fa-phone text-danger mb-2 fs-4"></i>
+                            <h6 class="text-white">Crisis Hotline</h6>
+                            <small class="text-muted">988 Suicide & Crisis Lifeline</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(59, 130, 246, 0.1);">
+                            <i class="fas fa-hand-holding-heart text-primary mb-2 fs-4"></i>
+                            <h6 class="text-white">Crisis Text Line</h6>
+                            <small class="text-muted">Text HOME to 741741</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center p-3 rounded" style="background: rgba(16, 185, 129, 0.1);">
+                            <i class="fas fa-hospital text-success mb-2 fs-4"></i>
+                            <h6 class="text-white">Emergency Services</h6>
+                            <small class="text-muted">911 or local emergency</small>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -646,8 +610,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <h5 class="mb-3"><i class="fas fa-brain me-2 text-primary"></i>MindHarmony AI</h5>
-                    <p class="text-muted">Advanced AI-powered mental fitness platform for modern wellness needs.</p>
+                    <h5 class="mb-3 text-white"><i class="fas fa-brain me-2 text-primary"></i>MindCare AI</h5>
+                    <p class="text-muted">Advanced AI-powered mental health platform for modern wellness needs. Your privacy and well-being are our priority.</p>
                 </div>
                 <div class="col-lg-2 mb-4">
                     <h6 class="text-light mb-3">Platform</h6>
@@ -660,13 +624,13 @@
                 <div class="col-lg-2 mb-4">
                     <h6 class="text-light mb-3">Resources</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-muted text-decoration-none" onclick="showSection('resources')">PDF Tools</a></li>
+                        <li><a href="#" class="text-muted text-decoration-none" onclick="showSection('resources')">Tools</a></li>
                         <li><a href="#" class="text-muted text-decoration-none" onclick="showNotification('Blog coming soon!')">Blog</a></li>
                         <li><a href="#" class="text-muted text-decoration-none" onclick="showNotification('Support page coming soon!')">Support</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 mb-4">
-                    <h6 class="text-light mb-3">Newsletter</h6>
+                    <h6 class="text-light mb-3">Get Updates</h6>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control bg-dark border-secondary text-light" placeholder="Your email" id="newsletterEmail">
                         <button class="btn btn-primary" onclick="subscribeNewsletter()">Subscribe</button>
@@ -676,7 +640,8 @@
             </div>
             <hr class="my-4 border-secondary">
             <div class="text-center">
-                <p class="text-muted mb-0">&copy; 2024 MindHarmony AI. All rights reserved.</p>
+                <p class="text-muted mb-0">&copy; 2024 MindCare AI. All rights reserved. | Made with ❤ for mental wellness</p>
+                <p class="text-muted mt-2"><small>This is not a replacement for professional medical advice. If you're in crisis, please contact emergency services.</small></p>
             </div>
         </div>
     </footer>
@@ -697,16 +662,18 @@
                 section.classList.remove('active');
             });
             
+            // Remove active from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
             // Show selected section
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
             
-            // Update active nav link
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-            });
+            // Add active to clicked nav link
             event.target.classList.add('active');
             
             window.scrollTo(0, 0);
@@ -724,20 +691,15 @@
             // Mood Chart
             const moodCtx = document.getElementById('moodChart');
             if (moodCtx) {
-                // Destroy existing chart if it exists
-                if (window.moodChartInstance) {
-                    window.moodChartInstance.destroy();
-                }
-                
-                window.moodChartInstance = new Chart(moodCtx, {
+                new Chart(moodCtx, {
                     type: 'line',
                     data: {
                         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                         datasets: [{
                             label: 'Mood Score',
                             data: [7, 8, 6, 9, 8, 7, 8],
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            borderColor: '#4f46e5',
+                            backgroundColor: 'rgba(79, 70, 229, 0.1)',
                             tension: 0.4,
                             fill: true,
                             borderWidth: 3
@@ -779,19 +741,14 @@
         function initializeResources() {
             const progressCtx = document.getElementById('progressChart');
             if (progressCtx) {
-                // Destroy existing chart if it exists
-                if (window.progressChartInstance) {
-                    window.progressChartInstance.destroy();
-                }
-                
-                window.progressChartInstance = new Chart(progressCtx, {
+                new Chart(progressCtx, {
                     type: 'bar',
                     data: {
                         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                         datasets: [{
-                            label: 'Mental Fitness Score',
-                            data: [65, 72, 68, 75, 80, 84],
-                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                            label: 'Mental Wellness Score',
+                            data: [65, 72, 68, 75, 80, 78],
+                            backgroundColor: 'rgba(79, 70, 229, 0.8)',
                             borderRadius: 8
                         }]
                     },
@@ -831,13 +788,6 @@
         function trackMood(score) {
             const moods = ['Struggling', 'Down', 'Neutral', 'Good', 'Excellent'];
             showNotification(Mood recorded: ${moods[score-1]} (${score}/5));
-            
-            // Update mood chart data
-            if (window.moodChartInstance) {
-                const newData = window.moodChartInstance.data.datasets[0].data;
-                newData[newData.length - 1] = score * 2; // Convert to 10-point scale
-                window.moodChartInstance.update();
-            }
         }
 
         // AI Chat System
@@ -857,7 +807,7 @@
                 userInput.value = '';
                 
                 // Show typing indicator
-                const typingIndicator = addChatMessage('MindHarmony AI is typing...', 'ai');
+                const typingIndicator = addChatMessage('MindCare AI is thinking...', 'ai');
                 typingIndicator.style.fontStyle = 'italic';
                 typingIndicator.style.opacity = '0.7';
                 
@@ -874,7 +824,9 @@
                         "Your awareness of these feelings is the first step toward managing them. Let's work on this together.",
                         "It takes courage to talk about these things. I'm proud of you for reaching out.",
                         "Let's try a quick breathing exercise together. Breathe in for 4 seconds, hold for 4, exhale for 6.",
-                        "Have you noticed any patterns in when these feelings occur? This can help us understand them better."
+                        "Have you noticed any patterns in when these feelings occur? This can help us understand them better.",
+                        "Remember to be kind to yourself. Self-compassion is an important part of mental wellness.",
+                        "Would you like to try a mindfulness exercise to help ground yourself in the present moment?"
                     ];
                     const randomResponse = responses[Math.floor(Math.random() * responses.length)];
                     addChatMessage(randomResponse, 'ai');
@@ -886,7 +838,7 @@
             const chatMessages = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = chat-message ${sender}-message;
-            messageDiv.innerHTML = <strong>${sender === 'user' ? 'You' : 'MindHarmony AI'}:</strong> ${text};
+            messageDiv.innerHTML = <strong>${sender === 'user' ? 'You' : 'MindCare AI'}:</strong> ${text};
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             return messageDiv;
@@ -928,10 +880,6 @@
                 clearInterval(timerInterval);
                 showNotification('Meditation session completed! Great job! 🎉');
                 resetTimer();
-                // Play completion sound (simulated)
-                if (typeof window.beep === 'function') {
-                    window.beep();
-                }
                 return;
             }
             
@@ -968,16 +916,6 @@
             }
         }
 
-        // Games System
-        function startGame(gameType) {
-            const games = {
-                'memory': 'Memory Matrix',
-                'focus': 'Focus Flow', 
-                'breathing': 'Breath Master'
-            };
-            showNotification(Starting ${games[gameType]}! 🎮\nThis feature will be available in the next update.);
-        }
-
         // Resource Download
         function downloadResource(type) {
             const resources = {
@@ -986,14 +924,14 @@
                 'sleep-diary': 'Sleep Diary',
                 'goal-planner': 'Goal Planner'
             };
-            showNotification(Downloading ${resources[type]}...\n(Simulated download));
+            showNotification(Downloading ${resources[type]}...);
         }
 
         // Newsletter Subscription
         function subscribeNewsletter() {
             const email = document.getElementById('newsletterEmail').value;
             if (email && email.includes('@')) {
-                showNotification('Thank you for subscribing to our newsletter!');
+                showNotification('Thank you for subscribing to our wellness newsletter!');
                 document.getElementById('newsletterEmail').value = '';
             } else {
                 showNotification('Please enter a valid email address', 'error');
@@ -1029,32 +967,10 @@
             // Show home section by default
             showSection('home');
             
-            // Animate progress ring
-            const circle = document.querySelector('.progress-ring-circle');
-            if (circle) {
-                const radius = circle.r.baseVal.value;
-                const circumference = radius * 2 * Math.PI;
-                const score = 84; // From mental score
-                const offset = circumference - (score / 100) * circumference;
-                circle.style.strokeDasharray = ${circumference} ${circumference};
-                circle.style.strokeDashoffset = offset;
-            }
-
             // Initialize dashboard charts
             initializeDashboard();
             
-            // Add beep function for meditation completion
-            window.beep = function() {
-                // Simulate beep sound (in a real app, this would play audio)
-                console.log('Beep! Meditation completed.');
-            };
-
-            console.log('MindHarmony AI initialized successfully!');
-        });
-
-        // Handle page refresh - show home section
-        window.addEventListener('load', function() {
-            showSection('home');
+            console.log('MindCare AI initialized successfully!');
         });
     </script>
 </body>
